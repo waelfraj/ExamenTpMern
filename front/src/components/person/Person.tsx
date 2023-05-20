@@ -1,7 +1,7 @@
 import { Person } from './person.interface';
 import { useDeleteUserMutation } from '../../redux/api/userApi';
 import { useNavigate } from 'react-router-dom';
-import EditPerson from '../edit-person/editPerson';
+
 export default function PersonComponent({ id, firstName, lastName, email }: Person) {
   const navigate = useNavigate();
 
@@ -28,7 +28,9 @@ export default function PersonComponent({ id, firstName, lastName, email }: Pers
         <button onClick={() => handleDelete()}>supprimer</button>
         <button
           onClick={() => {
-            navigate(`/user/update/${id}`);
+            navigate(`/users/update/${id}`, {
+              state: { id, firstName, lastName, email },
+            });
           }}
         >
           Modfier

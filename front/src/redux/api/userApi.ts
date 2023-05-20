@@ -4,9 +4,11 @@ import { Person } from '../../components/person/person.interface';
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000' }),
+  tagTypes: ['Categories'],
   endpoints: (builder) => ({
     getusers: builder.query<Person[], null>({
       query: () => '/users/getAll',
+      providesTags: ['Categories'],
     }),
     createUser: builder.mutation<Person, Person>({
       query: (user: Person) => ({
@@ -14,19 +16,22 @@ export const userApi = createApi({
         method: 'POST',
         body: user,
       }),
+      invalidatesTags: ['Categories'],
     }),
-    updateUser: builder.mutation({
-      query: ({ id, body }) => ({
+    updateUser: builder.mutation<Person, { id: number; user: Partial<Person> }>({
+      query: ({ id, user }) => ({
         url: `/users/update/${id}`,
         method: 'PATCH',
-        body: body,
+        body: user,
       }),
+      invalidatesTags: ['Categories'],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/delete/${id}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Categories'],
     }),
   }),
 });

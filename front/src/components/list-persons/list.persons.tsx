@@ -1,8 +1,11 @@
 import { useGetusersQuery } from '../../redux/api/userApi';
 import PersonComponent from '../person/Person';
 import { Person } from '../person/person.interface';
+import { useNavigate } from 'react-router-dom';
 
 export default function ListPersons() {
+  const navigate = useNavigate();
+
   const { data, isFetching } = useGetusersQuery(null);
   return (
     <>
@@ -29,6 +32,14 @@ export default function ListPersons() {
             ))}
         </tbody>
       </table>
+      <button
+        type="button"
+        onClick={() => {
+          navigate('/users/new');
+        }}
+      >
+        Ajouter une personne
+      </button>
     </>
   );
 }
